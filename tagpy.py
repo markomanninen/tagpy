@@ -163,6 +163,6 @@ def table(*args, **kw):
 
 """
 All tag elements are accessible via readily constructed factory variable. This helper
-should be imported from the module in this wise: from slxml import helper as h
+should be imported from the module in this wise: from tagpy import helper as h
 """
 helper = htmlHelper()
