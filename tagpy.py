@@ -137,10 +137,10 @@ def table(*args, **kw):
             self.tbody.content(tr)
             return self
         
-        def addBodyRows(self, trs, **kw):
+        def addBodyRows(self, *trs, **kw):
             if not self.__dict__.has_key('tbodys'):
                 self.tbodys = []
-            self.tbodys.append(helper.tbody(trs, **kw))
+            self.tbodys.append(helper.tbody(*trs, **kw))
             return self
         
         def __str__(self):
