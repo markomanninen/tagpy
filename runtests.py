@@ -29,8 +29,9 @@ def runtests(line):
             tests[k] = v
 
     tbl = table(CLASS='data')
+    tbl.addColGroup(h.col(), h.col())
     tbl.addCaption('Collected {} tests.\n'.format(len(tests)))
-    tbl.addHeadRow(h.tr(h.th('Function'), h.th('Status')))
+    tbl.addHeadRow(h.tr(h.th('Test function name'), h.th('Status')))
 
     # run tests
     ok = 0
@@ -43,13 +44,13 @@ def runtests(line):
         try:
             func()
         except AssertionError as e:
-            msg = 'fail'
+            msg = 'failed'
             fail[name] = e
         except Exception as e:
             msg = 'error'
             error[name] = e
         else:
-            msg = 'ok'
+            msg = 'successful'
             ok += 1
         tbl.addBodyRow(h.tr(h.td(name), h.td(msg), Class=msg))
 
@@ -57,6 +58,7 @@ def runtests(line):
 
     # print info on any failures
     if fail:
+        tbl.addBodyRows(h.tr(h.th("Failed", span=2)))
         trs = []
         for name, e in fail.iteritems():
             trs.append(h.tr(h.td(name), h.td(repr(e))))
@@ -64,14 +66,15 @@ def runtests(line):
 
     # print info on any errors
     if error:
+        tbl.addBodyRows(h.tr(h.th("Errors", span=2)))
         trs = []
         for name, e in error.iteritems():
             trs.append(h.tr(h.td(name), h.td(repr(e))))
         tbl.addBodyRows(*trs, CLASS='errors')
 
     # summary and timer of the tests
-    row1 = 'Ran {} tests in {:.3g} seconds.'.format(len(tests), t2 - t1)
-    row2 = 'ok = {}, fail = {}, error = {}'.format(ok, len(fail), len(error))
-    tbl.addFootRow(h.tr(h.td(row1, colspan=2)))
-    tbl.addFootRow(h.tr(h.td(row2, colspan=2)))
+    tbl.addFootRow(h.tr(h.td('Successful', Class="right"), h.td('{}'.format(ok))))
+    tbl.addFootRow(h.tr(h.td('Failed',     Class="right"), h.td('{}'.format(len(fail)))))
+    tbl.addFootRow(h.tr(h.td('Errors',     Class="right"), h.td('{}'.format(len(error)))))
+    tbl.addFootRow(h.tr(h.td("Excecution", Class="right"), h.td('{:.3g} seconds'.format(t2 - t1))))
     return HTML(str(tbl))
