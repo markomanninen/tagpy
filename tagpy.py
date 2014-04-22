@@ -112,29 +112,35 @@ def table(*args, **kw):
             self.caption.content(caption)
             return self
         
-        def addColGroup(self, cols, **kw):
+        def addColGroup(self, *cols, **kw):
+            """
+            http://www.w3.org/TR/CSS2/tables.html#columns
+            """
             if not self.__dict__.has_key('colgroup'):
                 self.colgroup = helper.colgroup(**kw)
             for col in cols:
                 self.colgroup.content(col)
             return self
         
-        def addHeadRow(self, tr, **kw):
+        def addHeadRow(self, *trs, **kw):
             if not self.__dict__.has_key('thead'):
                 self.thead = helper.thead(**kw)
-            self.thead.content(tr)
+            for tr in trs:
+                self.thead.content(tr)
             return self
         
-        def addFootRow(self, tr, **kw):
+        def addFootRow(self, *trs, **kw):
             if not self.__dict__.has_key('tfoot'):
                 self.tfoot = helper.tfoot(**kw)
-            self.tfoot.content(tr)
+            for tr in trs:
+                self.tfoot.content(tr)
             return self
         
-        def addBodyRow(self, tr, **kw):
+        def addBodyRow(self, *trs, **kw):
             if not self.__dict__.has_key('tbody'):
                 self.tbody = helper.tbody(**kw)
-            self.tbody.content(tr)
+            for tr in trs:
+                self.tbody.content(tr)
             return self
         
         def addBodyRows(self, *trs, **kw):
