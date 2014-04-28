@@ -1,8 +1,9 @@
-"""
-tagpy : Simple html tag generator / factory
-"""
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+# file: tag.py
+
 class TAG(object):
-    """ Base tag class """
+    """ Simple html tag generator / factory """
     def __init__(self, *args, **kw):
         self._name = self.__class__.__name__.lower()
         self._attributes = dict([k.lower(), str(w)] for k, w in kw.iteritems())
